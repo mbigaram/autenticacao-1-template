@@ -7,7 +7,7 @@ export interface GetProductsInput {
 export type GetProductsOutput = ProductModel[]
 
 export interface CreateProductInput {
-    id: unknown,
+    //id: unknown,
     name: unknown,
     price: unknown
 }

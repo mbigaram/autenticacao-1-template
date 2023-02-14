@@ -2,10 +2,12 @@ import { ProductDatabase } from "../database/ProductDatabase"
 import { CreateProductInput, CreateProductOutput, GetProductsInput, GetProductsOutput } from "../dtos/productDTO"
 import { BadRequestError } from "../errors/BadRequestError"
 import { Product } from "../models/Product"
+import { IdGeneration } from "../services/IdGeneration"
 
 export class ProductBusiness {
     constructor(
-        private productDatabase: ProductDatabase
+        private productDatabase: ProductDatabase,
+        private idGenerator: IdGeneration,
     ) {}
 
     public getProducts = async (
@@ -38,11 +40,11 @@ export class ProductBusiness {
     public createProduct = async (
         input: CreateProductInput
     ): Promise<CreateProductOutput> => {
-        const { id, name, price } = input
+        const { name, price } = input
 
-        if (typeof id !== "string") {
-            throw new BadRequestError("'id' deve ser string")
-        }
+        // if (typeof id !== "string") {
+        //     throw new BadRequestError("'id' deve ser string")
+        // }
 
         if (typeof name !== "string") {
             throw new BadRequestError("'name' deve ser string")
@@ -60,11 +62,13 @@ export class ProductBusiness {
             throw new BadRequestError("'price' não pode ser zero ou negativo")
         }
 
-        const productDBExists = await this.productDatabase.findProductById(id)
+        const id = this.idGenerator.generate()
 
-        if (productDBExists) {
-            throw new BadRequestError("'id' já existe")
-        }
+        // const productDBExists = await this.productDatabase.findProductById(id)
+
+        // if (productDBExists) {
+        //     throw new BadRequestError("'id' já existe")
+        // }
 
         const newProduct = new Product(
             id,
