@@ -32,7 +32,7 @@ export class ProductController {
         try {
 
             const input: CreateProductInput = {
-                id: req.body.id,
+                // id: req.body.id,
                 name: req.body.name,
                 price: req.body.price
             }
